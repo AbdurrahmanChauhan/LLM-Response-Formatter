@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Response Formatter</title>
+    <link rel="stylesheet" href="./style.css">
+    <!-- Include MathJax for LaTeX -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Include Prism.js for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <h3>Model A</h3>
+            <textarea id="modelA" placeholder="Paste response here..."></textarea>
+            <div id="outputA" class="output"></div>
+        </div>
+        <div class="column">
+            <h3>Model B</h3>
+            <textarea id="modelB" placeholder="Paste response here..."></textarea>
+            <div id="outputB" class="output"></div>
+        </div>
+    </div>
+    <!-- Spinner for Loading Animation -->
+    <div id="loadingSpinner" class="spinner" style="display: none;">Loading...</div>
+    <script src="https://unpkg.com/prettier@2.8.0/standalone.js"></script>
+    <script src="https://unpkg.com/prettier@2.8.0/parser-html.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>
