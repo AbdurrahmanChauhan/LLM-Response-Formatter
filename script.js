@@ -1,9 +1,49 @@
 /**
+ * Unicode conversion mapping
+ */
+const unicodeMapping = {
+    '\u2019': "'", // Right Single Quotation Mark
+    '\u201C': '"', // Left Double Quotation Mark
+    '\u201D': '"', // Right Double Quotation Mark
+    '\u2013': '-', // En Dash
+    '\u2014': '--', // Em Dash
+    '\u2026': '...', // Ellipsis
+    '\u00A9': '&copy;', // Copyright Symbol
+    '\u00AE': '&reg;', // Registered Trademark Symbol
+    '\u2122': '&trade;', // Trademark Symbol
+    // Add more Unicode mappings as needed
+};
+
+/**
+ * Function to decode escaped Unicode characters (e.g., \u2019 to ’)
+ */
+const decodeEscapedUnicode = (input) => {
+    return input.replace(/\\u([0-9A-Fa-f]{4})/g, (match, code) => {
+        return String.fromCharCode(parseInt(code, 16));
+    });
+};
+
+/**
+ * Function to replace Unicode characters with their plain text or HTML equivalents
+ */
+const handleUnicode = (input) => {
+    return input.replace(/[\u2019\u201C\u201D\u2013\u2014\u2026\u00A9\u00AE\u2122]/g, (char) => {
+        return unicodeMapping[char] || char;
+    });
+};
+
+/**
  * Function to process and format input
  */
 const processInput = (input) => {
     try {
         input = input.trim();
+
+        // Decode escaped Unicode sequences
+        input = decodeEscapedUnicode(input);
+
+        // Handle Unicode characters
+        input = handleUnicode(input);
 
         // Replace escaped \n\n with actual paragraph breaks
         input = input.replace(/\\n\\n/g, "</p><p>");
@@ -12,7 +52,6 @@ const processInput = (input) => {
         input = input.replace(/\\n/g, "<br>");
 
         // Convert bullet points (* item) into unordered list <ul><li> items
-        // This ensures that the entire list is enclosed in <ul> and each item in <li>
         input = input.replace(/(?:^|\n)\* (.*?)(?=\n|$)/g, "<li>$1</li>");
         input = input.replace(/(<li>.*?<\/li>)+/g, "<ul>$&</ul>"); // Wrap all <li> items in a <ul> tag
 
@@ -38,7 +77,6 @@ const processInput = (input) => {
         });
 
         // Ensure that the entire content is wrapped in <p> tags if necessary
-        // Wrap it with <p> if it's not already wrapped
         if (!input.startsWith("<p>")) {
             input = `<p>${input}</p>`;
         }
